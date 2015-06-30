@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>RandomStudent</title>
+  <meta name="author" content="Sergio Lopez" />
+  <link rel="stylesheet" href="bootstrap.css">
+  <style>
+  .green {
+    color:#7DB701;
+  }
+  </style>
+</head>
+<body>
+  
+  <div class ="container">
+    <div class="row">
+      <h1 class="col-xs-12 text-center">Ms. O's Random Student Picker</h1>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-sm-offset-3">
+      <h2>Students Left</h2>
+      <ul id="studentRoster">
+
+      </ul>
+      </div>
+      <div class="col-xs-6">
+        <h2>Lucky Student</h2>
+        <h1 id="studentName" class="green">
+        </h1>
+        <button class="btn btn-default" type="submit">Pick Student</button>
+      </div>
+    </div>
+
+  </div>
+
+<script src="jquery-2.1.4.min.js"></script>
+<script src="bootstrap.js"></script>
+<script src="underscore-min.js"></script>
+<script type="text/template" class="studentTemplate">
+  <li>
+    <span><%= studentName %></span>
+  </li>
+</script>
+<script type="text/javascript">
+var roster = [
+  "Dominique Avitia",
+  "Jacob Baker",
+  "Angel Camanza",
+  "Eddie Castro",
+  "Kevin Corral",
+  "Ricardo Davila",
+  "Alejandro Delgado",
+  "Jose Enriquez-Rodriguez",
+  "Valerie Espinoza",
+  "Julian Gonzalez Vasquez",
+  "Servando Guerrero Lopez",
+  "Aida Guzman",
+  "Angel Ledezma",
+  "Brian Lezama",
+  "Patrick Ian McDougal",
+  "Jonathan Medrano",
+  "Catalina Miranda",
+  "Aislynn O'Donnell",
+  "Luis Peraza-Ortiz",
+  "Aracely Ramirez",
+  "Dakota Robertson",
+  "Gildardo Rocha",
+  "Ernesto Soto",
+  "Echo Thomas",
+  "Oscar Tinoco",
+  "Josette Valdez",
+  "Airika Wooley"
+]
+$(document).ready(function(){
+  generateRoster();
+
+});
+function generateRoster(){
+  var studentTemplate = _.template($( "script.studentTemplate" ).html());
+  $('#studentRoster').empty();
+  $.each(roster, function (){
+    var studentData = {
+      studentName: this
+    };
+  $('#studentRoster').append(studentTemplate(studentData));
+  });
+}
+
+$('.btn').click(function(){
+  if(_.size(roster)>0){
+    var student = _.sample(roster);
+    roster = _.without(roster,student);
+    $('#studentName').text(student);
+    generateRoster();
+  }else{
+    $('#studentName').text('No more students to pick from');
+  }
+});
+</script>
+
+
+</body>
+</html>
